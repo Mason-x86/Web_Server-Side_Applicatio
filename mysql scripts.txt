@@ -1,0 +1,63 @@
+CREATE TABLE Staff (
+    staff_id int IDENTITY(1,1) PRIMARY KEY,
+    first_name varchar(255),
+    last_name varchar(255),
+    password varchar(255),
+    email varchar(255)
+); 
+
+CREATE TABLE Students (
+    student_id int IDENTITY(1,1) PRIMARY KEY,
+    first_name varchar(255),
+    last_name varchar(255),
+    password varchar(255),
+    email varchar(255)
+); 
+
+CREATE TABLE Courses (
+    course_id int IDENTITY(1,1) PRIMARY KEY,
+    staff_id int FOREIGN KEY REFERENCES Staff(staff_id),
+    course_name varchar(255),
+    course_description varchar(255)
+);
+
+CREATE TABLE Enrollment (
+    enrollment_id int IDENTITY(1,1) PRIMARY KEY,
+    student_id int FOREIGN KEY REFERENCES Students(student_id),
+    course_id int FOREIGN KEY REFERENCES Courses(course_id)
+);
+
+
+InsertInto Test Script
+INSERT INTO Staff (first_name, last_name, password, email)
+VALUES ("Bruce", "Wayne", "batmanpass", "iambatman@gotham.com")
+
+INSERT INTO Staff (first_name, last_name, password, email)
+VALUES ('Rob', 'Howard', 'robpass', 'robhow@university.co.uk')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+irelev:
+ const request = pool.request();
+    request.input('firstname', sql.VarChar, firstname);
+    request.input('lastname', sql.VarChar, lastname);
+    request.input('email', sql.VarChar, email);
+    request.input('password', sql.VarChar, pwd);
+
+
+
+
+
+    Welcome <%=staff_info[0].first_name%> <%=staff_info[0].last_name%>

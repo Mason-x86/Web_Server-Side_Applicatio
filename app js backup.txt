@@ -1,0 +1,253 @@
+/*
+APP.JS SUMMARY
+
+
+
+*/
+
+const express = require('express');
+const app = express();
+
+const chalk = require('chalk');
+const path = require('path');
+const debug = require('debug')('app');
+const morgan = require('morgan');
+const port = process.env.PORT || 3000;
+const sql = require('mssql');
+const cookieParser = require('cookie-parser');
+const helmet = require('helmet')
+
+app.use(morgan('tiny'));
+app.use(express.static(path.join(__dirname, './public')));
+app.use('/css', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/css')));
+app.use('/js', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/js')));
+app.use('/js', express.static(path.join(__dirname, '/node_modules/bootstrap/dist')));
+app.set('views', './src/views');
+app.set('view engine', 'ejs');
+var bodyParser = require('body-parser');
+app.use(express.urlencoded({extended: true})); 
+app.use(express.json());
+app.use(cookieParser());
+app.use(helmet());
+
+// const loginRoutes = require('./src/routes/loginRoutes');
+// app.use('/login', loginRoutes);
+
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function showCookieValue() {
+    const output = document.getElementById('cookie-value')
+    output.textContent = '> ' + cookieValue
+  }
+
+const config = {
+    user: 'admin-MM',
+    password: 'Boris@46@Matt',
+    server: 'project-library-server.database.windows.net',
+    database: 'UniversityDB',
+    option: {
+        encrypt: true // Use if on windows Azure
+    }
+}
+sql.connect(config).catch((err) => debug(err));
+
+app.get('/login_staff', function(req, res){
+    res.render('login_staff', 
+    {
+        nav:[
+            {link: '/', title: 'Home'},
+            {link: '/login_staff', title: 'Log In -Staff'},
+            {link: '/sign_up_staff', title: 'Sign Up -Staff'},
+            {link: '/portal_staff', title: 'Portal -Staff'}
+        ],
+        title: 'Log In',
+        
+    })
+})
+
+app.get('/portal_staff', function(req, res){(
+    async function query() {
+        debug(req.cookies.StaffEmail);
+        debug(req.cookies.StaffPassword);
+        let email = req.cookies.StaffEmail;
+        let password = req.cookies.StaffPassword;
+        const request = new sql.Request();
+        request.input('emailvar', sql.VarChar, email);
+        request.input('pass', sql.VarChar, password);
+        const result = await request
+            .query('select * from Staff where email = @emailvar and password = @pass');
+        debug(result);
+    
+        
+        res.render('portal_staff', 
+        {
+            nav:[
+                {link: '/', title: 'Home'},
+                {link: '/login_staff', title: 'Log In -Staff'},
+                {link: '/sign_up_staff', title: 'Sign Up -Staff'},
+                {link: '/portal_staff', title: 'Portal -Staff'}
+            ], 
+             staff_info:[
+                {
+                    staff_id: '', 
+                    first_name: '',
+                    surname: ''
+                }
+            ],
+            title: 'Staff Portal',
+        });
+    }())
+});
+
+app.get('/sign_up_staff', function(req, res){
+    res.render('sign_up_staff', 
+    {
+        nav:[
+            {link: '/', title: 'Home'},
+            {link: '/login_staff', title: 'Log In'},
+            {link: '/sign_up_staff', title: 'Sign Up -Staff'},
+            {link: '/portal_staff', title: 'Portal'}
+        ],
+        title: 'Sign Up',
+        
+    })
+})
+
+app.get('/', function(req, res){
+    debug("index");
+    res.render('index', 
+    {
+        nav:[
+            {link: '/', title: 'Home'},
+            {link: '/login_staff', title: 'Log In'},
+            {link: '/sign_up_staff', title: 'Sign Up -Staff'},
+            {link: '/portal_staff', title: 'Portal'}
+        ],
+        title: 'Academic Homepage',
+        
+    })
+})
+
+app.post("/sign_up_staff", function (req, res) {
+    var firstname = req.body.firstname;
+    var lastname = req.body.firstname;
+    var email = req.body.email;
+    var pwd = req.body.password1;
+    var confirmPassword = req.body.password2;
+    var is_staff;
+    if (pwd == confirmPassword) {
+    //var data = {name: name, email: email, password: pwd};
+   
+    const transaction = new sql.Transaction(/* [pool] */);
+    transaction.begin(err => {
+    // ... error checks
+
+        const request = new sql.Request(transaction)
+        request.input('firstname', sql.VarChar, firstname);
+        request.input('lastname', sql.VarChar, lastname);
+        request.input('email', sql.VarChar, email);
+        request.input('pwd', sql.VarChar, pwd);
+        request.query('insert into staff (first_name, last_name, password, email) values (@firstname, @lastname, @pwd, @email)', (err, result) => {
+        // ... error checks
+
+            transaction.commit(err => {
+            // ... error checks
+
+                debug("Transaction committed.")
+            })
+        })
+    })
+
+    res.render('login_staff',
+    {
+        nav:[
+            {link: '/', title: 'Home'},
+            {link: '/login_staff', title: 'Log In'},
+            {link: '/sign_up_staff', title: 'Sign Up -Staff'},
+            {link: '/portal_staff', title: 'Portal'}
+        ],
+        title: 'Log In'
+        });
+    }
+    else {
+    res.render('sign_up_staff', {
+        nav:[
+            {link: '/', title: 'Home'},
+            {link: '/login_staff', title: 'Log In'},
+            {link: '/sign_up_staff', title: 'Sign Up -Staff'},
+            {link: '/portal_staff', title: 'Portal'}
+        ],
+        title: 'Sign Up' 
+        });
+    }
+});
+    
+app.post("/login_staff", function (req, res) {(
+    async function query() {
+        debug('anything');
+        var email = req.body.email;
+        var pwd = req.body.password;
+        let logged_in = Boolean(false)
+        const request = new sql.Request();
+        request.input('emailvar', sql.VarChar, email);
+        request.input('pass', sql.VarChar, pwd);
+        const result = await request
+            .query('select * from Staff where email = @emailvar and password = @pass');
+        debug(result);
+
+        if (result.recordset.length > 0){
+            logged_in = true
+            res.cookie('StaffEmail',result.recordset[0].email)
+            res.cookie('StaffPassword',result.recordset[0].password)
+            debug('cookie saved success')
+            debug(result.recordset[0].staff_id)
+        }
+        
+        if (logged_in == true) {
+            debug('logged in to portal')
+            //var data = {name: name, email: email, password: pwd};
+            res.render('portal_staff',
+            {
+                nav:[
+                    {link: '/', title: 'Home'},
+                    {link: '/login_staff', title: 'Log In'},
+                    {link: '/sign_up_staff', title: 'Sign Up -Staff'},
+                    {link: '/portal_staff', title: 'Portal'}
+                ],
+                staff_info:[
+                    {
+                        staff_id: result.recordset[0].staff_id, 
+                        first_name: result.recordset[0].first_name,
+                        surname: result.recordset[0].last_name
+                    }
+                ],
+                title: 'Staff Portal'
+                });
+            }
+        else {
+            debug('failed to login')
+            res.render('login_staff', 
+            {
+                nav:[
+                    {link: '/', title: 'Home'},
+                    {link: '/login_staff', title: 'Log In'},
+                    {link: '/sign_up_staff', title: 'Sign Up -Staff'},
+                    {link: '/portal_staff', title: 'Portal'}
+                ],
+            
+                title: 'Login Staff' 
+            });
+        }
+        
+    }())
+});
+
+app.listen(port, function(){
+    debug(`listening on port ${chalk.green(port)}`);
+   
+})

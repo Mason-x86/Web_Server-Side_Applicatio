@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title><%=title%></title>
+        <link rel="shortcut icon" href="/img/1favicon.ico">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="/css/styles.css" rel="stylesheet">
+	</head>
+<body>
+        
+<div class="navbar">    
+    
+    <div class="dropdown">
+        <button class="dropbtn">Menu</button>
+        <div class="dropdown-content">
+            <% for (let i = 0; i < nav.length; i++) { %> 
+                <li>
+                    <a href="<%=nav[i].link%>"><%=nav[i].title%></a>
+                </li>
+            <%}%> 
+            </div>
+       
+        </div>
+        <a>Homepage</a>
+
+    </div>
+    <div class = "introtext">
+    <h1>Welcome To The Course Viewer Homepage</h1>
+    <p>Course Viewer is here to help you view and find your courses <br>
+    provided by your teachers. <br>
+    If you are a new student to Course Viewer you must sign up through <br>
+    student sign up page. <br>
+    If you are a new teacher to Course Viewer you must sign up through <br>
+    staff sign up page. <br>
+    Existing students can access their portals after logging in through the log in page <br>
+    The same for teachers when using the staff log in page.
+    </p>
+    <p>go to portal to see your academic information</p>
+    </div>
+        
+</body>
+
+</html>

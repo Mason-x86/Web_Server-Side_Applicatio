@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title><%=title%></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="/css/styles.css" rel="stylesheet">
+	</head>
+<body>
+    <header> 
+    </header>
+        
+<div class="navbar">    
+    
+    <div class="dropdown">
+        <button class="dropbtn">Menu_</button>
+        <div class="dropdown-content">
+            <% for (let i = 0; i < nav.length; i++) { %> 
+                <li>
+                    <a href="<%=nav[i].link%>"><%=nav[i].title%></a>
+                </li>
+            <%}%> 
+            </div>
+       
+        </div>
+        <a>Homepage</a>
+
+    </div>
+    <div class = "introtext">
+    <h1></h1>
+    <p>Course Information</p>
+ 
+
+    </div>
+    <div class = "itemlist">
+        <div class = "bordered_text">
+        <% for (let i = 0; i < query.length; i++) { %> 
+            <p><%=query[i].course_name%> </p>
+            <p><%=query[i].course_description%> </p>
+            
+        <%}%> 
+        </div>
+    </div>
+   
+    
+        
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title><%=title%></title>
+        <link rel="shortcut icon" href="/img/1favicon.ico">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="/css/styles.css" rel="stylesheet">
+	</head>
+<body>
+    <header> 
+    </header>
+        
+<div class="navbar">    
+    
+    <div class="dropdown">
+        <button class="dropbtn">Menu_</button>
+        <div class="dropdown-content">
+            <% for (let i = 0; i < nav.length; i++) { %> 
+                <li>
+                    <a href="<%=nav[i].link%>"><%=nav[i].title%></a>
+                </li>
+            <%}%> 
+            </div>
+       
+        </div>
+        <a>Homepage</a>
+
+    </div>
+    <div class = "introtext">
+    <h1>Welcome <%=staff_info[0].first_name%> <%=staff_info[0].last_name%></h1>
+    <p>To your portal page</p>
+    <p>See a list of your information and courses bellow</p>
+
+    <div class="course_area">
+        <% for (let i = 0; i < course_infos.length; i++) { %> 
+            <div class="course_box">
+                <li>
+                    <table>
+                        <tr>
+                          <th><img alt="" src="/img/computing.jpg" width="100" height="100"></th>
+                          <th>Course Name: <%=course_infos[i].course_name%></th>
+                          <th><a href='/course_view/<%=course_infos[i].course_id%> '>see details</a></th>
+                        </tr>
+                    </table>   
+                <p>Description: <%=course_infos[i].course_description%></p>
+                </li>
+            </div>
+        <%}%> 
+        <form accept-charset='UTF-8' role='form' 
+        method='post' action='portal_staff'>
+    
+        <input class='form-control' placeholder='Course Name'
+        name='name' type='text' required='required' />
+    
+        <input class='form-control' placeholder='Course Description'
+        name='description' type='text' required='required' />
+    
+        <input class='btn btn-lg btn-success btn-block'
+         type='submit' value='create course' />
+    </div>
+  
+        
+</body>
+
+</html>

@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/d5176bd1-988d-46a1-92f1-b2162f135638/resourceGroups/courseviewer/providers/Microsoft.Web/sites/CourseWeb",
+    "appService.deploySubpath": "."
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title><%=title%></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="/css/styles.css" rel="stylesheet">
+	</head>
+<body>
+    <header> 
+    </header>
+        
+<div class="navbar">    
+    
+    <div class="dropdown">
+        <button class="dropbtn">Menu_</button>
+        <div class="dropdown-content">
+            <% for (let i = 0; i < nav.length; i++) { %> 
+                <li>
+                    <a href="<%=nav[i].link%>"><%=nav[i].title%></a>
+                </li>
+            <%}%> 
+            </div>
+       
+        </div>
+        <a>Sign up students</a>
+
+    </div>
+    <div class = "introtext">
+    </div>
+
+    <form accept-charset='UTF-8' role='form' 
+    method='post' action='sign_up_students'>
+
+    <input class='form-control' placeholder='Firstname'
+    name='firstname' type='text' required='required' />
+
+    <input class='form-control' placeholder='Surname'
+    name='lastname' type='text' required='required' />
+
+    <input class='form-control' placeholder='Email'
+    name='email' type='text' required='required' />
+
+    <input class='form-control' placeholder='Password'
+    name='password1' type='password' value='' 
+    required='required' />
+
+    <input class='form-control' placeholder='Confirm'
+     name='password2' type='password' value='' 
+     required='required' />
+
+    <input class='btn btn-lg btn-success btn-block'
+     type='submit' value='sign_up_students' />
+        
+</body>
+
+</html>
