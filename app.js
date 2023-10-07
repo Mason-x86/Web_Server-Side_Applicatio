@@ -39,10 +39,10 @@ app.use(portalRouter);
 
 
 const config = {
-    user: 'admin-MM',
-    password: 'Boris@46@Matt',
-    server: 'project-library-server.database.windows.net',
-    database: 'UniversityDB',
+    user: 'mm-portfolio-admin',
+    password: '17MM3102@Number46MM',
+    server: 'portfolio-server-mm.database.windows.net',
+    database: 'portfolio_db',
     option: {
         encrypt: true // Use if on windows Azure
     }
