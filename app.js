@@ -48,7 +48,7 @@ const config = {
     }
 }
 sql.connect(config).catch((err) => debug(err));
-console.log(config);
+
 
 
 
