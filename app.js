@@ -40,7 +40,7 @@ app.use(portalRouter);
 
 const config = {
     user: 'mm-portfolio-admin',
-    password: '17MM3102@Number46',
+    password: '*********',
     server: 'portfolio-server-mm.database.windows.net',
     database: 'portfolio_db',
     option: {
