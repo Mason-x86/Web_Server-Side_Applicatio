@@ -39,9 +39,9 @@ app.use(portalRouter);
 
 
 const config = {
-    user: 'mm-portfolio-admin',
+    user: '********-admin',
     password: '*********',
-    server: 'portfolio-server-mm.database.windows.net',
+    server: '******-server-mm.database.windows.net',
     database: 'portfolio_db',
     option: {
         encrypt: true // Use if on windows Azure
